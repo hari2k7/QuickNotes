@@ -4,7 +4,9 @@ import mongoose from 'mongoose' //this is for getSingleNote valid mongoose id en
 // Get all notes
 export const getNotes = async (req, res) => {
     try {
-        const notes = await Note.find()
+        const notes = await Note.find({
+            user: req.user.id,
+        });
 
         res.json(notes)
 
@@ -17,11 +19,12 @@ export const getNotes = async (req, res) => {
 
 export const createNote = async (req, res) => {
     try {
-        const note = await Note.create(req.body)
-        /*
-        title: req.body.title,
-        content: req.body.content,
-    })*/
+        const note = await Note.create({
+            title: req.body.title,
+            content: req.body.content,
+
+            user: req.user.id,
+        })
 
         res.status(201).json(note)
 
@@ -35,6 +38,23 @@ export const createNote = async (req, res) => {
 
 export const updateNote = async (req, res) => {
     try {
+
+        const note = await Note.findById(req.params.id);
+
+        if (!note) {
+            return res.status(404).json({
+                message: 'Note not found',
+            });
+        }
+
+
+        // Check ownership
+        if (note.user.toString() !== req.user.id) {
+            return res.status(401).json({
+                message: 'Not authorized',
+            });
+        }
+
         const updateNote = await Note.findByIdAndUpdate(
             req.params.id,
             {
@@ -57,6 +77,22 @@ export const updateNote = async (req, res) => {
 
 export const deleteNote = async (req, res) => {
     try {
+
+        const note = await Note.findById(req.params.id);
+
+        if (!note) {
+            return res.status(404).json({
+                message: 'Note not found',
+            });
+        }
+
+        // Check ownership
+        if (note.user.toString() !== req.user.id) {
+            return res.status(401).json({
+                message: 'Not authorized',
+            });
+        }
+
         await Note.findByIdAndDelete(req.params.id)
 
         res.json({
@@ -86,6 +122,12 @@ export const getSingleNote = async (req, res) => {
             return res.status(404).json({
                 message: 'Note not found',
             })
+        }
+
+        if (note.user.toString() !== req.user.id) {
+            return res.status(401).json({
+                message: 'Not authorized',
+            });
         }
 
         res.json(note)

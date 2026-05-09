@@ -1,163 +1,149 @@
-/* App.css */
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #1e293b, #0f172a);
+  background: #0f172a;
+  color: #f8fafc;
   min-height: 100vh;
-  color: #fff;
-  padding: 40px 20px;
 }
 
 .container {
+  width: 100%;
   max-width: 1100px;
   margin: auto;
+  padding: 40px 20px;
 }
 
 h1 {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 35px;
   font-size: 3rem;
   font-weight: 700;
-  color: #f8fafc;
-  letter-spacing: 1px;
+  color: #38bdf8;
 }
 
-/* Form Styling */
+/* FORM */
 
 form {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
+  background: #1e293b;
   padding: 25px;
-  border-radius: 20px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-  margin-bottom: 40px;
+  border-radius: 18px;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
 }
 
 input,
 textarea {
   width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 16px;
   border: none;
   outline: none;
-  padding: 15px;
-  margin-bottom: 18px;
   border-radius: 12px;
+  background: #334155;
+  color: white;
   font-size: 1rem;
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
   transition: 0.3s ease;
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: #cbd5e1;
 }
 
 input:focus,
 textarea:focus {
-  background: rgba(255, 255, 255, 0.18);
+  background: #475569;
   transform: scale(1.01);
 }
 
 textarea {
-  min-height: 130px;
+  min-height: 120px;
   resize: vertical;
 }
 
-/* Submit Button */
+button {
+  border: none;
+  outline: none;
+  padding: 12px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: 0.25s ease;
+}
+
+/* MAIN BUTTON */
 
 form button {
   width: 100%;
-  padding: 14px;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-  color: white;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.3s ease;
+  background: #38bdf8;
+  color: #0f172a;
 }
 
 form button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4);
+  background: #0ea5e9;
 }
 
 form button:disabled {
   background: #64748b;
   cursor: not-allowed;
-  box-shadow: none;
 }
 
-/* Notes Grid */
+/* LOGIN TOGGLE */
+
+p {
+  margin-top: 12px;
+  text-align: center;
+  color: #94a3b8;
+  transition: 0.2s;
+}
+
+p:hover {
+  color: #38bdf8;
+}
+
+/* NOTES GRID */
 
 .notes-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 22px;
+  gap: 20px;
 }
 
-/* Note Card */
+/* NOTE CARD */
 
 .note-card {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(10px);
-  padding: 22px;
+  background: #1e293b;
+  padding: 20px;
   border-radius: 18px;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
-  transition: 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  transition: 0.25s ease;
+  border: 1px solid transparent;
 }
 
 .note-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+  transform: translateY(-5px);
+  border-color: #38bdf8;
 }
 
 .note-card h3 {
   margin-bottom: 12px;
-  color: #f8fafc;
-  font-size: 1.4rem;
+  color: #38bdf8;
+  font-size: 1.3rem;
 }
 
 .note-card p {
+  text-align: left;
   color: #cbd5e1;
-  line-height: 1.6;
-  margin-bottom: 18px;
-  word-wrap: break-word;
+  line-height: 1.5;
+  margin-bottom: 20px;
 }
 
-/* Buttons inside card */
+/* CARD BUTTONS */
 
 .note-card button {
-  padding: 10px 16px;
-  border: none;
-  border-radius: 10px;
   margin-right: 10px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.3s ease;
 }
-
-/* Edit Button */
-
-.note-card button:last-child {
-  background: #22c55e;
-  color: white;
-}
-
-.note-card button:last-child:hover {
-  background: #16a34a;
-}
-
-/* Delete Button */
 
 .note-card button:first-of-type {
   background: #ef4444;
@@ -168,16 +154,38 @@ form button:disabled {
   background: #dc2626;
 }
 
-/* Divider */
-
-hr {
-  border: none;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.12);
-  margin: 35px 0;
+.note-card button:last-of-type {
+  background: #22c55e;
+  color: white;
 }
 
-/* Responsive */
+.note-card button:last-of-type:hover {
+  background: #16a34a;
+}
+
+/* LOGOUT BUTTON */
+
+.container > button {
+  margin-top: 30px;
+  background: #f59e0b;
+  color: #111827;
+  width: 100%;
+}
+
+.container > button:hover {
+  background: #d97706;
+}
+
+.card-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.card-buttons button {
+  flex: 1;
+}
+
+/* MOBILE */
 
 @media (max-width: 600px) {
   h1 {
@@ -185,7 +193,7 @@ hr {
   }
 
   form {
-    padding: 18px;
+    padding: 20px;
   }
 
   .note-card {

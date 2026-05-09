@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 
 import noteRoutes from './routes/noteRoutes.js'
+import authRoutes from './routes/authRoutes.js'
 
 dotenv.config()
 
@@ -18,6 +19,7 @@ mongoose.connect(process.env.MONGO_URI)
 
 // Routes
 app.use('/notes',noteRoutes);
+app.use('/api/auth', authRoutes)
 
 const PORT = 5000
 

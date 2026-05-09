@@ -15,6 +15,11 @@ const noteSchema = new mongoose.Schema(
             trim: true,
             minlength: [5, 'Content must be at least 5 characters'],
         },
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true,
+        },
     },
     {
         timestamps: true,

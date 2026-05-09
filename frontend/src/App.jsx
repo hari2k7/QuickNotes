@@ -10,9 +10,26 @@ function App() {
   const [content, setContent] = useState('');
   const [editId, setEditId] = useState(null);
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+
+  const [isLogin, setIsLogin] = useState(true);
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   //fetch Notes
   const fetchNotes = async () => {
-    const response = await axios.get(`${import.meta.env.VITE_API_URL}/notes`)
+
+    const token = localStorage.getItem('token')
+
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/notes`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      }
+    )
 
     //const data = await response.json(); no need since we use axios instead of fetch(...)
 
@@ -20,13 +37,28 @@ function App() {
   }
 
   useEffect(() => {
-    fetchNotes();
+
+    const token = localStorage.getItem('token')
+
+    if (token) {
+      setIsAuthenticated(true)
+    }
+
   }, []);
+
+  useEffect(() => {
+
+    if (isAuthenticated) {
+      fetchNotes();
+    }
+
+  }, [isAuthenticated]);
 
   const handleSubmit = async (e) => {
 
     e.preventDefault();
 
+    const token = localStorage.getItem('token')
 
     // update note
     if (editId) {
@@ -35,6 +67,11 @@ function App() {
         {
           title,
           content,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -48,7 +85,13 @@ function App() {
         {
           title,
           content,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
+
       );
     }
 
@@ -68,11 +111,18 @@ function App() {
       return;
     }
 
+    const token = localStorage.getItem('token');
+
     try {
       await axios.delete(
-        `${import.meta.env.VITE_API_URL}/notes/${id}`
+        `${import.meta.env.VITE_API_URL}/notes/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-  
+
       fetchNotes();
     } catch (error) {
       console.log(error)
@@ -85,52 +135,179 @@ function App() {
     setEditId(note._id)
   }
 
+  const handleAuth = async (e) => {
+
+    e.preventDefault();
+
+    try {
+
+      // LOGIN
+      if (isLogin) {
+
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/api/auth/login`,
+          {
+            email,
+            password,
+          }
+        );
+
+        localStorage.setItem(
+          'token',
+          response.data.token
+        );
+
+        setIsAuthenticated(true);
+
+        await fetchNotes();
+      }
+
+      // REGISTER
+      else {
+
+        await axios.post(
+          `${import.meta.env.VITE_API_URL}/api/auth/register`,
+          {
+            name,
+            email,
+            password,
+          }
+        );
+
+        alert('Registration successful');
+
+        setIsLogin(true);
+      }
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+  };
+
+  const logoutUser = () => {
+
+    localStorage.removeItem('token');
+
+    setIsAuthenticated(false);
+
+    setNotes([]);
+  };
+
   return (
     <div className='container'>
       <h1>Quick Notes</h1>
 
-      <form onSubmit={handleSubmit}>
+      {
+        !isAuthenticated && (
 
-        <input
-          type="text"
-          placeholder='Enter title'
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
+          <form onSubmit={handleAuth}>
 
-        <br />
+            {
+              !isLogin && (
+                <input
+                  type="text"
+                  placeholder="Enter name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              )
+            }
 
-        <textarea
-          id=""
-          placeholder='Enter content'
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        />
+            <input
+              type="email"
+              placeholder="Enter email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
-        <br />
+            <input
+              type="password"
+              placeholder="Enter password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
-        <button type='submit' disabled={!title || !content}>
-          {editId ? 'Update Note' : 'Add Note'}
-        </button>
-      </form>
+            <button type="submit">
+              {isLogin ? 'Login' : 'Register'}
+            </button>
 
-      <hr />
+            <p
+              onClick={() => setIsLogin(!isLogin)}
+              style={{ cursor: 'pointer' }}
+            >
+              {
+                isLogin
+                  ? 'Create new account'
+                  : 'Already have an account?'
+              }
+            </p>
 
-      <div className='notes-grid'>
-        {
-          notes.map((note) => (
-            <div className='note-card' key={note._id}>
-              <h3>{note.title}</h3>
-              <p>{note.content}</p>
+          </form>
+        )
+      }
 
-              <button onClick={() => { deleteNote(note._id) }}>Delete</button>
+      {
+        isAuthenticated && (
+          <>
+            {
+              <form onSubmit={handleSubmit}>
 
-              <button onClick={() => handleEdit(note)}>Edit</button>
+                <input
+                  type="text"
+                  placeholder='Enter title'
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
 
-            </div>
-          ))
-        }
-      </div>
+                <br />
+
+                <textarea
+                  id=""
+                  placeholder='Enter content'
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                />
+
+                <br />
+
+                <button type='submit' disabled={!title || !content}>
+                  {editId ? 'Update Note' : 'Add Note'}
+                </button>
+              </form>
+            }
+            {
+              <div className='notes-grid'>
+                {
+                  notes.map((note) => (
+                    <div className='note-card' key={note._id}>
+                      <h3>{note.title}</h3>
+                      <p>{note.content}</p>
+
+                      <div className="card-buttons">
+                        <button onClick={() => deleteNote(note._id)}>Delete</button>
+
+                        <button onClick={() => handleEdit(note)}>Edit</button>
+                      </div>
+
+                    </div>
+                  ))
+                }
+              </div>
+            }
+          </>
+        )
+      }
+
+      {
+        isAuthenticated && (
+          <button onClick={logoutUser}>
+            Logout
+          </button>
+        )
+      }
+
     </div>
   );
 }

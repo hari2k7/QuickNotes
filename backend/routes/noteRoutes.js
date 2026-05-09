@@ -1,5 +1,6 @@
 import express from 'express'
 //import Note from '../models/Note.js'
+import authMiddleware from '../middleware/authMiddleware.js'
 
 import{
     getNotes,
@@ -12,18 +13,18 @@ import{
 const router = express.Router()
 
 // to get all notes
-router.get('/', getNotes)
+router.get('/', authMiddleware, getNotes)
 
 // get single note
-router.get('/:id',getSingleNote)
+router.get('/:id', authMiddleware, getSingleNote)
 
 // to create note
-router.post('/', createNote)
+router.post('/', authMiddleware, createNote)
 
 // update notes
-router.put('/:id' ,updateNote)
+router.put('/:id', authMiddleware, updateNote)
 
 // delete note
-router.delete('/:id', deleteNote)
+router.delete('/:id', authMiddleware, deleteNote)
 
 export default router
