@@ -200,16 +200,26 @@ function App() {
 
     const doc = new jsPDF();
 
+    let y = 20;
+
+    const pageHeight = 280;
+
     doc.setFontSize(20);
 
-    doc.text('My Notes', 20, 20);
+    doc.text('My Notes', 20, y);
 
-    let y = 40;
+    y += 20;
 
 
     notes.forEach((note, index) => {
 
+      // Title
       doc.setFontSize(14);
+
+      if (y > pageHeight) {
+        doc.addPage();
+        y = 20;
+      }
 
       doc.text(
         `${index + 1}. ${note.title}`,
@@ -219,15 +229,33 @@ function App() {
 
       y += 10;
 
+
+      // Content
       doc.setFontSize(12);
 
-      doc.text(
+      const splitContent = doc.splitTextToSize(
         note.content,
-        25,
-        y
+        160
       );
 
-      y += 20;
+
+      splitContent.forEach((line) => {
+
+        // Add new page if current page full
+        if (y > pageHeight) {
+
+          doc.addPage();
+
+          y = 20;
+        }
+
+        doc.text(line, 25, y);
+
+        y += 7;
+      });
+
+
+      y += 10;
     });
 
 

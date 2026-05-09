@@ -185,6 +185,12 @@ p:hover {
   flex: 1;
 }
 
+.note-card p {
+  max-height: 150px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
 /* MOBILE */
 
 @media (max-width: 600px) {
