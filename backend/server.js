@@ -10,8 +10,13 @@ dotenv.config()
 
 const app = express()
 
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://quick-notes-nine-jet.vercel.app',
+];
+
 app.use(cors({
-  origin: 'https://quick-notes-nine-jet.vercel.app',
+  origin: allowedOrigins,
   credentials: true,
 }));
 
