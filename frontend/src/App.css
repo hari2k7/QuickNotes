@@ -1,0 +1,194 @@
+/* App.css */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  min-height: 100vh;
+  color: #fff;
+  padding: 40px 20px;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+
+/* Form Styling */
+
+form {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  margin-bottom: 40px;
+}
+
+input,
+textarea {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 15px;
+  margin-bottom: 18px;
+  border-radius: 12px;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  transition: 0.3s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #cbd5e1;
+}
+
+input:focus,
+textarea:focus {
+  background: rgba(255, 255, 255, 0.18);
+  transform: scale(1.01);
+}
+
+textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+/* Submit Button */
+
+form button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4);
+}
+
+form button:disabled {
+  background: #64748b;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Notes Grid */
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
+}
+
+/* Note Card */
+
+.note-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  padding: 22px;
+  border-radius: 18px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+  transition: 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.note-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+
+.note-card h3 {
+  margin-bottom: 12px;
+  color: #f8fafc;
+  font-size: 1.4rem;
+}
+
+.note-card p {
+  color: #cbd5e1;
+  line-height: 1.6;
+  margin-bottom: 18px;
+  word-wrap: break-word;
+}
+
+/* Buttons inside card */
+
+.note-card button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  margin-right: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+/* Edit Button */
+
+.note-card button:last-child {
+  background: #22c55e;
+  color: white;
+}
+
+.note-card button:last-child:hover {
+  background: #16a34a;
+}
+
+/* Delete Button */
+
+.note-card button:first-of-type {
+  background: #ef4444;
+  color: white;
+}
+
+.note-card button:first-of-type:hover {
+  background: #dc2626;
+}
+
+/* Divider */
+
+hr {
+  border: none;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+  margin: 35px 0;
+}
+
+/* Responsive */
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  form {
+    padding: 18px;
+  }
+
+  .note-card {
+    padding: 18px;
+  }
+}
