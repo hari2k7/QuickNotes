@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import jsPDF from 'jspdf';
 
 import './App.css'
 
@@ -195,6 +196,44 @@ function App() {
     setNotes([]);
   };
 
+  const exportPDF = () => {
+
+    const doc = new jsPDF();
+
+    doc.setFontSize(20);
+
+    doc.text('My Notes', 20, 20);
+
+    let y = 40;
+
+
+    notes.forEach((note, index) => {
+
+      doc.setFontSize(14);
+
+      doc.text(
+        `${index + 1}. ${note.title}`,
+        20,
+        y
+      );
+
+      y += 10;
+
+      doc.setFontSize(12);
+
+      doc.text(
+        note.content,
+        25,
+        y
+      );
+
+      y += 20;
+    });
+
+
+    doc.save('notes.pdf');
+  };
+
   return (
     <div className='container'>
       <h1>Quick Notes</h1>
@@ -302,9 +341,10 @@ function App() {
 
       {
         isAuthenticated && (
-          <button onClick={logoutUser}>
-            Logout
-          </button>
+          <>
+            <button onClick={exportPDF}>Export PDF</button>
+            <button onClick={logoutUser}>Logout</button>
+          </>
         )
       }
 
