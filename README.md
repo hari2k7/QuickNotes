@@ -1,4 +1,4 @@
-# MERN Notes App
+# Quick Notes
 
 A simple full-stack Notes application built using the MERN stack.
 
@@ -106,4 +106,4 @@ npm run dev
 | DELETE | /notes/:id  | Delete note     |
 
 ## Author
-Hariharasudhan
+Hariharasudhan D
