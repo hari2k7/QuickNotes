@@ -10,7 +10,11 @@ dotenv.config()
 
 const app = express()
 
-app.use(cors())
+app.use(cors({
+  origin: 'https://quick-notes-nine-jet.vercel.app',
+  credentials: true,
+}));
+
 app.use(express.json())
 
 mongoose.connect(process.env.MONGO_URI)
