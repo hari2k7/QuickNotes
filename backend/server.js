@@ -13,10 +13,14 @@ const app = express()
 const allowedOrigins = [
   'http://localhost:5173',
   'https://quick-notes-nine-jet.vercel.app',
+  'https://quick-notes-q68i8exi4-hariharasudhan-d-s-projects.vercel.app',
 ];
 
 app.use(cors({
-  origin: allowedOrigins,
+  origin: [
+    'http://localhost:5173',
+    /\.vercel\.app$/,
+  ],
   credentials: true,
 }));
 
