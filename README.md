@@ -8,6 +8,7 @@ A simple full-stack Notes application built using the MERN stack.
 - View all notes
 - Update notes
 - Delete notes
+- Export PDF
 - MongoDB Atlas integration
 - REST API
 - MVC backend architecture
